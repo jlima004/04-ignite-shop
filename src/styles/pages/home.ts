@@ -1,11 +1,11 @@
-import { styled } from "..";
+import { styled } from '..'
 
 export const HomeContainer = styled('main', {
   display: 'flex',
   width: '100%',
   maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
   marginLeft: 'auto',
-  minHeight: 656,
+  minHeight: 600,
 })
 
 export const Product = styled('div', {
@@ -45,7 +45,7 @@ export const Product = styled('div', {
 
     strong: {
       fontSize: '$lg',
-      color: '$gray100'
+      color: '$gray100',
     },
 
     span: {
@@ -53,7 +53,6 @@ export const Product = styled('div', {
       fontWeight: 'bold',
       color: '$green300',
     },
-
   },
 
   '&:hover': {

@@ -1,4 +1,4 @@
-import { styled } from "..";
+import { styled } from '..'
 
 export const ProductContainer = styled('main', {
   display: 'grid',
@@ -42,7 +42,7 @@ export const ProjectDetails = styled('div', {
     fontSize: '$2xl',
     color: '$green300',
   },
-  
+
   p: {
     marginTop: '2.5rem',
     fontSize: '$md',
