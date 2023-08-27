@@ -1,9 +1,111 @@
-import { useRouter } from "next/router"
+import { useState } from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Stripe from "stripe";
 
-export default function Product() {
-  const { query } = useRouter()
+import { stripe } from "@/lib/stripe";
+
+import {
+  ImageContainer,
+  ProductContainer,
+  ProjectDetails,
+} from "@/styles/pages/product";
+import axios from "axios";
+
+interface ProductProps {
+  product: {
+    id: string
+    imageUrl: string
+    name: string
+    price: string
+    description: string
+    defaultPriceId: string
+  };
+}
+
+export default function Product({ product }: ProductProps) {
+  const { isFallback } = useRouter()
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      const response = await axios.post('/api/checkout',{
+        priceId: product.defaultPriceId
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (err) {
+      // Conectar com alguma ferramenta de observabilidade (Datadog / Sentry)
+
+      setIsCreatingCheckoutSession(false)
+
+      alert('Falha ao redirecionar ao checkout!')
+    }
+  }
+
+  if (isFallback) {
+    return <h1 style={{color: 'yellow'}}>Loading...</h1>
+  }
 
   return (
-    <h1>Product</h1>
-  )
+    <ProductContainer>
+      <ImageContainer>
+        <Image src={product.imageUrl} width={520} height={480} alt="" />
+      </ImageContainer>
+
+      <ProjectDetails>
+        <h1>{product.name}</h1>
+        <span>{product.price}</span>
+
+        <p>{product.description}</p>
+
+        <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Comprar agora</button>
+      </ProjectDetails>
+    </ProductContainer>
+  );
 }
+
+export const getStaticPaths: GetStaticPaths =  async () => {
+  // Buscar os produtos mais vendidos / mais acessados
+
+  return {
+    paths: [
+      { params: { id: 'prod_OWS6euEl7XBfuL' } }
+    ],
+    fallback: true,
+  }
+}
+
+export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
+  params,
+}) => {
+  const productId = params?.id
+
+  const product = await stripe.products.retrieve(productId as string, {
+    expand: ["default_price"],
+  });
+
+  const price = product.default_price as Stripe.Price;
+
+  return {
+    props: {
+      product: {
+        id: product.id,
+        name: product.name,
+        imageUrl: product.images[0],
+        price: new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(price.unit_amount! / 100),
+        description: product.description,
+        defaultPriceId: price.id,
+      },
+    },
+    revalidate: 60 * 60 * 1, // 1 hour
+  };
+};
