@@ -1,20 +1,11 @@
 import { ReactNode, createContext, useReducer } from 'react'
 
-interface Product {
-  id: string
-  imageUrl: string
-  name: string
-  defaultPriceId: string
-  qtd?: number
-}
+import { ActionTypes, Product } from '@/reducers/lineItems/action'
+import { lineItensReducer } from '@/reducers/lineItems/reducer'
 
 interface HandbagContextData {
   lineItens: Product[]
   addProduct: (product: Product) => void
-}
-
-interface ItemState {
-  lineItens: Product[]
 }
 
 export const HandbagContext = createContext({} as HandbagContextData)
@@ -27,19 +18,7 @@ export function HandbagContextProvider({
   children,
 }: HandbagContextProviderProps) {
   const [itemsState, dispatch] = useReducer(
-    (state: ItemState, action: any) => {
-      switch (action.type) {
-        case 'ADD_PRODUCT': {
-          const newState: ItemState = {
-            lineItens: [...state.lineItens, action.payload],
-          }
-          return newState
-        }
-
-        default:
-          return state
-      }
-    },
+    lineItensReducer,
     { lineItens: [] },
     (initialState) => {
       return initialState
@@ -50,8 +29,8 @@ export function HandbagContextProvider({
 
   function addProduct(product: Product) {
     dispatch({
-      type: 'ADD_PRODUCT',
-      payload: product,
+      type: ActionTypes.ADD_PRODUCT,
+      payload: { product },
     })
   }
 
