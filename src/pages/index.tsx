@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Stripe from 'stripe'
+import { CaretLeft, CaretRight, Handbag } from '@phosphor-icons/react'
 import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
 
@@ -19,7 +21,13 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [sliderRef] = useKeenSlider({
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel)
+    },
     slides: {
       perView: 2,
       spacing: 48,
@@ -43,12 +51,39 @@ export default function Home({ products }: HomeProps) {
               <Image src={product.imageUrl} width={520} height={480} alt="" />
 
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+
+                <span>
+                  <Handbag size={32} weight="bold" />
+                </span>
               </footer>
             </Product>
           </Link>
         ))}
+        {instanceRef.current && currentSlide !== 0 && (
+          <CaretLeft
+            onClick={() => instanceRef.current?.prev()}
+            className="arrow arrow--left"
+          />
+        )}
+        {instanceRef.current === null && (
+          <CaretRight
+            onClick={() => instanceRef.current?.next()}
+            className="arrow arrow--right"
+          />
+        )}
+        {instanceRef.current !== null &&
+          (currentSlide ===
+            instanceRef.current.track.details.slides.length / 2 - 1 ||
+            currentSlide === 0) && (
+            <CaretRight
+              onClick={() => instanceRef.current?.next()}
+              className="arrow arrow--right"
+            />
+          )}
       </HomeContainer>
     </>
   )

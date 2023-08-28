@@ -6,6 +6,7 @@ import logoImg from '../assets/logo.svg'
 import { globalStyles } from '@/styles/global'
 import { Container, Header } from '@/styles/pages/app'
 import Link from 'next/link'
+import { Handbag } from '@phosphor-icons/react'
 
 globalStyles()
 
@@ -16,6 +17,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <Link href="/">
           <Image src={logoImg} alt="" />
         </Link>
+
+        <button>
+          <Handbag size={24} weight="bold" />
+        </button>
       </Header>
 
       <Component {...pageProps} />
