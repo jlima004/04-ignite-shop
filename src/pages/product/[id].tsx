@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useContext } from 'react'
+// import { useState } from 'react'
+// import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -6,13 +8,13 @@ import Image from 'next/image'
 import Stripe from 'stripe'
 
 import { stripe } from '@/lib/stripe'
+import { HandbagContext } from '@/contexts/HandbagContext'
 
 import {
   ImageContainer,
   ProductContainer,
   ProjectDetails,
 } from '@/styles/pages/product'
-import axios from 'axios'
 
 interface ProductProps {
   product: {
@@ -26,11 +28,11 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
+  const { addProduct, lineItens } = useContext(HandbagContext)
   const { isFallback } = useRouter()
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false)
+  // const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
-  async function handleBuyProduct() {
+  /* async function handleBuyProduct() {
     try {
       setIsCreatingCheckoutSession(true)
 
@@ -48,10 +50,16 @@ export default function Product({ product }: ProductProps) {
 
       alert('Falha ao redirecionar ao checkout!')
     }
+  } */
+
+  function handleAddInHandbag() {
+    addProduct(product)
   }
 
+  console.log(lineItens)
+
   if (isFallback) {
-    return <h1 style={{ color: 'yellow' }}>Loading...</h1>
+    return <h1 style={{ color: 'yellow', fontSize: '3rem' }}>Loading...</h1>
   }
 
   return (
@@ -72,10 +80,10 @@ export default function Product({ product }: ProductProps) {
           <p>{product.description}</p>
 
           <button
-            onClick={handleBuyProduct}
-            disabled={isCreatingCheckoutSession}
+            onClick={handleAddInHandbag}
+            // disabled={isCreatingCheckoutSession}
           >
-            Comprar agora
+            Colocar na sacola
           </button>
         </ProjectDetails>
       </ProductContainer>

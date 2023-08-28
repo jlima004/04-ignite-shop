@@ -1,29 +1,33 @@
 import type { AppProps } from 'next/app'
 import Image from 'next/image'
+import Link from 'next/link'
+import { Handbag } from '@phosphor-icons/react'
 
-import logoImg from '../assets/logo.svg'
+import { HandbagContextProvider } from '@/contexts/HandbagContext'
 
 import { globalStyles } from '@/styles/global'
 import { Container, Header } from '@/styles/pages/app'
-import Link from 'next/link'
-import { Handbag } from '@phosphor-icons/react'
+
+import logoImg from '../assets/logo.svg'
 
 globalStyles()
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Container>
-      <Header>
-        <Link href="/">
-          <Image src={logoImg} alt="" />
-        </Link>
+      <HandbagContextProvider>
+        <Header>
+          <Link href="/">
+            <Image src={logoImg} alt="" />
+          </Link>
 
-        <button>
-          <Handbag size={24} weight="bold" />
-        </button>
-      </Header>
+          <button>
+            <Handbag size={24} weight="bold" />
+          </button>
+        </Header>
 
-      <Component {...pageProps} />
+        <Component {...pageProps} />
+      </HandbagContextProvider>
     </Container>
   )
 }
