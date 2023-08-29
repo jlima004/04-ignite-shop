@@ -26,9 +26,9 @@ export const HomeContainer = styled('main', {
 })
 
 export const Product = styled('div', {
+  height: 600,
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
-  // padding: '0.25rem',
   cursor: 'pointer',
   position: 'relative',
   overflow: 'hidden',
@@ -38,7 +38,9 @@ export const Product = styled('div', {
   justifyContent: 'center',
 
   img: {
-    objectFit: 'cover',
+    objectFit: 'contain',
+    width: '100%',
+    height: '100%',
   },
 
   footer: {
@@ -80,8 +82,8 @@ export const Product = styled('div', {
     '> span': {
       background: '$green500',
       border: 0,
-      width: 56,
-      height: 56,
+      fontSize: '$2xl',
+      padding: '0.75rem',
       borderRadius: 6,
       color: '$white',
 

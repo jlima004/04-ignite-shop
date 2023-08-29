@@ -1,5 +1,4 @@
 import { useContext } from 'react'
-// import { useState } from 'react'
 // import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
@@ -28,9 +27,10 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { addProduct, lineItens } = useContext(HandbagContext)
+  const { addProduct } = useContext(HandbagContext)
   const { isFallback } = useRouter()
-  // const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+  /* const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false) */
 
   /* async function handleBuyProduct() {
     try {
@@ -46,6 +46,8 @@ export default function Product({ product }: ProductProps) {
     } catch (err) {
       // Conectar com alguma ferramenta de observabilidade (Datadog / Sentry)
 
+      console.log(err)
+
       setIsCreatingCheckoutSession(false)
 
       alert('Falha ao redirecionar ao checkout!')
@@ -55,8 +57,6 @@ export default function Product({ product }: ProductProps) {
   function handleAddInHandbag() {
     addProduct(product)
   }
-
-  console.log(lineItens)
 
   if (isFallback) {
     return <h1 style={{ color: 'yellow', fontSize: '3rem' }}>Loading...</h1>
@@ -79,12 +79,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button
-            onClick={handleAddInHandbag}
-            // disabled={isCreatingCheckoutSession}
-          >
-            Colocar na sacola
-          </button>
+          <button onClick={handleAddInHandbag}>Colocar na sacola</button>
         </ProjectDetails>
       </ProductContainer>
     </>

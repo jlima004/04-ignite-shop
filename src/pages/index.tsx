@@ -57,7 +57,7 @@ export default function Home({ products }: HomeProps) {
                 </div>
 
                 <span>
-                  <Handbag size={32} weight="bold" />
+                  <Handbag weight="bold" />
                 </span>
               </footer>
             </Product>

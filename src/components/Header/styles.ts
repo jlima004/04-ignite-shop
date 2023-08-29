@@ -17,14 +17,16 @@ export const HandbagButton = styled('button', {
   height: 48,
   borderRadius: 6,
   color: '$gray500',
+  cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   position: 'relative',
+  fontSize: '$xl',
 
   span: {
-    padding: '3px 8px',
-    fontSize: 14,
+    padding: '0.187rem 0.5rem',
+    fontSize: '0.875rem',
     fontWeight: 'bold',
 
     display: 'flex',
@@ -37,7 +39,7 @@ export const HandbagButton = styled('button', {
     color: '$white',
 
     position: 'absolute',
-    top: -8.5,
-    right: -8.5,
+    top: '-0.535rem',
+    right: '-0.535rem',
   },
 })

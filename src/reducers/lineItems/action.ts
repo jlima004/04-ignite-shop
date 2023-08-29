@@ -2,6 +2,7 @@ export interface Product {
   id: string
   imageUrl: string
   name: string
+  price: string
   defaultPriceId: string
   qtd?: number
 }
