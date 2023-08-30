@@ -12,7 +12,11 @@ interface HandbagModalProps {
 }
 
 export function HandbagModal({ closeModal }: HandbagModalProps) {
-  const { lineItens } = useContext(HandbagContext)
+  const { lineItens, total, removeProduct } = useContext(HandbagContext)
+
+  function handleRemove(id: string) {
+    removeProduct(id)
+  }
 
   return (
     <Dialog.Portal>
@@ -50,7 +54,9 @@ export function HandbagModal({ closeModal }: HandbagModalProps) {
                       <strong>{product.price}</strong>
                     </div>
                     <div className="action">
-                      <button>Remover</button>
+                      <button onClick={() => handleRemove(product.id)}>
+                        Remover
+                      </button>
                     </div>
                   </div>
                 </ProductCard>
@@ -64,13 +70,26 @@ export function HandbagModal({ closeModal }: HandbagModalProps) {
               <span className="qtdLabel">Quantidade</span>
               <span className="qtdValue">
                 {lineItens.length === 0 && 'nenhum item'}
-                {lineItens.length === 1 && '1 item'}
-                {lineItens.length > 1 && lineItens.length + ' itens'}
+
+                {lineItens.length === 1 &&
+                  ((lineItens[0].qtd || 1) > 1
+                    ? `${lineItens[0].qtd} itens`
+                    : '1 item')}
+
+                {lineItens.length > 1 &&
+                  lineItens.reduce((acum, { qtd = 1 }) => {
+                    return acum + qtd
+                  }, 0) + ' itens'}
               </span>
             </div>
             <div className="total">
               <strong className="totalLabel">Valor total</strong>
-              <strong className="totalValue">{'R$ 270,00'}</strong>
+              <strong className="totalValue">
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(total / 100)}
+              </strong>
             </div>
           </div>
           <button>Finalizar compra</button>

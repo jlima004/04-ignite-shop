@@ -25,6 +25,20 @@ export function lineItensReducer(state: ItemState, action: ActionTypeProps) {
       })
     }
 
+    case ActionTypes.REMOVE_PRODUCT: {
+      const currentProductIndex = state.lineItens.findIndex(
+        (product) => product.id === action.payload.idProduct,
+      )
+
+      if (currentProductIndex > -1) {
+        return produce(state, (draft) => {
+          draft.lineItens.splice(currentProductIndex, 1)
+        })
+      }
+
+      return state
+    }
+
     default:
       return state
   }

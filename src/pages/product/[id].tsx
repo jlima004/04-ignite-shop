@@ -22,6 +22,7 @@ interface ProductProps {
     imageUrl: string
     name: string
     price: string
+    priceNumber: number
     description: string
     defaultPriceId: string
   }
@@ -115,6 +116,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           style: 'currency',
           currency: 'BRL',
         }).format((price.unit_amount || 0) / 100),
+        priceNumber: price.unit_amount,
         description: product.description,
         defaultPriceId: price.id,
       },
