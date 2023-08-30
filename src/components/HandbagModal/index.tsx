@@ -46,7 +46,7 @@ export function HandbagModal({ closeModal }: HandbagModalProps) {
 
                   <div className="product">
                     <div className="info">
-                      <span>{product.name}</span>
+                      <span>{product.qtd + ' x ' + product.name}</span>
                       <strong>{product.price}</strong>
                     </div>
                     <div className="action">

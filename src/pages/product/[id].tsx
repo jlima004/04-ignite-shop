@@ -8,6 +8,7 @@ import Stripe from 'stripe'
 
 import { stripe } from '@/lib/stripe'
 import { HandbagContext } from '@/contexts/HandbagContext'
+import { ProductSkeleton } from '@/components/ProductSkeleton'
 
 import {
   ImageContainer,
@@ -59,7 +60,7 @@ export default function Product({ product }: ProductProps) {
   }
 
   if (isFallback) {
-    return <h1 style={{ color: 'yellow', fontSize: '3rem' }}>Loading...</h1>
+    return <ProductSkeleton />
   }
 
   return (
