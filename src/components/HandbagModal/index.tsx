@@ -1,5 +1,6 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import Image from 'next/image'
+import axios from 'axios'
 import * as Dialog from '@radix-ui/react-dialog'
 
 import { HandbagContext } from '@/contexts/HandbagContext'
@@ -13,6 +14,35 @@ interface HandbagModalProps {
 
 export function HandbagModal({ closeModal }: HandbagModalProps) {
   const { lineItens, total, removeProduct } = useContext(HandbagContext)
+
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
+
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      const payload = lineItens.map((product) => {
+        return {
+          price: product.defaultPriceId,
+          quantity: product.qtd,
+        }
+      })
+
+      const response = await axios.post('/api/checkout', { lineItems: payload })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (err) {
+      // Conectar com alguma ferramenta de observabilidade (Datadog / Sentry)
+      console.log(err)
+
+      setIsCreatingCheckoutSession(false)
+
+      alert('Falha ao redirecionar ao checkout!')
+    }
+  }
 
   function handleRemove(id: string) {
     removeProduct(id)
@@ -92,7 +122,12 @@ export function HandbagModal({ closeModal }: HandbagModalProps) {
               </strong>
             </div>
           </div>
-          <button>Finalizar compra</button>
+          <button
+            disabled={isCreatingCheckoutSession || lineItens.length === 0}
+            onClick={handleBuyProduct}
+          >
+            Finalizar compra
+          </button>
         </footer>
       </Content>
     </Dialog.Portal>
