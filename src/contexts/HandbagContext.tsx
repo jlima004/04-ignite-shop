@@ -38,6 +38,32 @@ export function HandbagContextProvider({
   const { lineItens } = itemsState
 
   useEffect(() => {
+    const storedBuyState = localStorage.getItem('@ignite-shop:buy-state-1.0.0')
+
+    if (storedBuyState && storedBuyState === 'BOUGHT') {
+      localStorage.removeItem('@ignite-shop:products-state-1.0.0')
+      localStorage.removeItem('@ignite-shop:buy-state-1.0.0')
+    }
+
+    if (lineItens.length === 0) {
+      const storedProductsStateAsJson = localStorage.getItem(
+        '@ignite-shop:products-state-1.0.0',
+      )
+
+      if (storedProductsStateAsJson) {
+        dispatch({
+          type: ActionTypes.LOAD_PRODUCTS,
+          payload: { itemsState: JSON.parse(storedProductsStateAsJson) },
+        })
+      }
+    } else if (lineItens.length > 0) {
+      const productsStateJson = JSON.stringify({ lineItens })
+      localStorage.setItem(
+        '@ignite-shop:products-state-1.0.0',
+        productsStateJson,
+      )
+    }
+
     const itemsTotal: number = lineItens.reduce(
       (acum, { priceNumber, qtd = 1 }) => {
         return acum + priceNumber * qtd
@@ -64,7 +90,12 @@ export function HandbagContextProvider({
 
   return (
     <HandbagContext.Provider
-      value={{ lineItens, total, addProduct, removeProduct }}
+      value={{
+        lineItens,
+        total,
+        addProduct,
+        removeProduct,
+      }}
     >
       {children}
     </HandbagContext.Provider>

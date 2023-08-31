@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
+import * as Dialog from '@radix-ui/react-dialog'
 import { Handbag } from '@phosphor-icons/react'
 
 import { HandbagContext } from '@/contexts/HandbagContext'
@@ -15,12 +16,24 @@ export function Header() {
   const { lineItens } = useContext(HandbagContext)
   const [open, setOpen] = useState<boolean>(false)
 
+  const router = useRouter()
+
   function handleCloseHandbagModal() {
     setOpen(false)
   }
 
   function handleOpenHandbagModal() {
     setOpen(true)
+  }
+
+  if (router.pathname === '/success') {
+    return (
+      <HeaderContainer style={{ justifyContent: 'center' }}>
+        <Link href="/">
+          <Image src={logoImg} alt="" />
+        </Link>
+      </HeaderContainer>
+    )
   }
 
   return (

@@ -1,10 +1,6 @@
 import { produce } from 'immer'
 
-import { ActionTypeProps, ActionTypes, Product } from './action'
-
-export interface ItemState {
-  lineItens: Product[]
-}
+import { ActionTypeProps, ActionTypes, ItemState } from './action'
 
 export function lineItensReducer(state: ItemState, action: ActionTypeProps) {
   switch (action.type) {
@@ -37,6 +33,12 @@ export function lineItensReducer(state: ItemState, action: ActionTypeProps) {
       }
 
       return state
+    }
+
+    case ActionTypes.LOAD_PRODUCTS: {
+      const loadedProducts = action.payload.itemsState
+
+      return loadedProducts
     }
 
     default:

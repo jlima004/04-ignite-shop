@@ -46,6 +46,9 @@ export function HandbagModal({ closeModal }: HandbagModalProps) {
 
   function handleRemove(id: string) {
     removeProduct(id)
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('@ignite-shop:products-state-1.0.0')
+    }
   }
 
   return (
