@@ -8,6 +8,11 @@ export const HeaderContainer = styled('header', {
 
   display: 'flex',
   justifyContent: 'space-between',
+
+  '@bp1': {
+    padding: '2rem',
+    maxWidth: 'unset',
+  },
 })
 
 export const HandbagButton = styled('button', {

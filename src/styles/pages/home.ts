@@ -26,6 +26,7 @@ export const HomeContainer = styled('main', {
 })
 
 export const Product = styled('div', {
+  maxWidth: '620px !important',
   height: 600,
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,

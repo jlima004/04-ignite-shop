@@ -32,4 +32,8 @@ export const {
       '3xl': '3rem',
     },
   },
+  media: {
+    bp1: '(max-width: 1180px)',
+    bp2: '(max-width: 900px)',
+  },
 })

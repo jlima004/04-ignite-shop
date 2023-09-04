@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useMediaPredicate } from 'react-media-hook'
 import Stripe from 'stripe'
 import { CaretLeft, CaretRight, Handbag } from '@phosphor-icons/react'
 import { useKeenSlider } from 'keen-slider/react'
@@ -24,16 +25,22 @@ interface HomeProps {
 export default function Home({ products }: HomeProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
 
+  const biggerThan900 = useMediaPredicate('(min-width: 900px)')
+
   const [sliderRef, instanceRef] = useKeenSlider({
     initial: 0,
     slideChanged(slider) {
       setCurrentSlide(slider.track.details.rel)
     },
     slides: {
-      perView: 2,
+      perView: biggerThan900 ? 2 : 1,
       spacing: 48,
     },
   })
+
+  const lastSlide = biggerThan900
+    ? (instanceRef.current?.track.details.slides.length || 1) / 2
+    : (instanceRef.current?.track.details.slides.length || 1) - 1
 
   return (
     <>
@@ -70,21 +77,12 @@ export default function Home({ products }: HomeProps) {
             className="arrow arrow--left"
           />
         )}
-        {instanceRef.current === null && (
+        {instanceRef.current !== null && currentSlide !== lastSlide && (
           <CaretRight
             onClick={() => instanceRef.current?.next()}
             className="arrow arrow--right"
           />
         )}
-        {instanceRef.current !== null &&
-          (currentSlide ===
-            instanceRef.current.track.details.slides.length / 2 - 1 ||
-            currentSlide === 0) && (
-            <CaretRight
-              onClick={() => instanceRef.current?.next()}
-              className="arrow arrow--right"
-            />
-          )}
       </HomeContainer>
     </>
   )

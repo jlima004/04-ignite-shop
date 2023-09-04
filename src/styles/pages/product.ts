@@ -8,6 +8,17 @@ export const ProductContainer = styled('main', {
 
   maxWidth: 1180,
   margin: '0 auto',
+
+  '@bp1': {
+    padding: '0 2rem',
+    maxWidth: 'unset',
+  },
+  '@bp2': {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    // gap: '2rem',
+  },
 })
 
 export const ImageContainer = styled('div', {
@@ -22,10 +33,13 @@ export const ImageContainer = styled('div', {
   alignItems: 'center',
   justifyContent: 'center',
 
+  '@bp2': {
+    height: 'auto',
+  },
+
   img: {
-    objectFit: 'contain',
+    objectFit: 'cover',
     width: '100%',
-    height: '100%',
   },
 })
 
@@ -64,6 +78,11 @@ export const ProjectDetails = styled('div', {
     fontSize: '$md',
 
     transition: 'background-color 0.2s',
+
+    '@bp2': {
+      marginTop: '3rem',
+      marginBottom: '2rem',
+    },
 
     '&:disabled': {
       opacity: 0.6,
