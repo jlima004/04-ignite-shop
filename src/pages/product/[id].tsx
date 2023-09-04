@@ -36,7 +36,11 @@ export default function Product({ product }: ProductProps) {
   }
 
   if (isFallback) {
-    return <ProductSkeleton />
+    return (
+      <>
+        <ProductSkeleton />
+      </>
+    )
   }
 
   return (
@@ -47,7 +51,13 @@ export default function Product({ product }: ProductProps) {
 
       <ProductContainer>
         <ImageContainer>
-          <Image src={product.imageUrl} width={520} height={480} alt="" />
+          <Image
+            priority
+            src={product.imageUrl}
+            width={520}
+            height={480}
+            alt=""
+          />
         </ImageContainer>
 
         <ProjectDetails>

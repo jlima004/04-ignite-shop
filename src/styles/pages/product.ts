@@ -17,7 +17,6 @@ export const ProductContainer = styled('main', {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    // gap: '2rem',
   },
 })
 
@@ -40,6 +39,7 @@ export const ImageContainer = styled('div', {
   img: {
     objectFit: 'cover',
     width: '100%',
+    height: 'auto',
   },
 })
 

@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import Link from 'next/link'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Handbag } from '@phosphor-icons/react'
@@ -10,7 +10,7 @@ import { HandbagModal } from '../HandbagModal'
 
 import { HandbagButton, HeaderContainer } from './styles'
 
-import logoImg from '../../assets/logo.svg'
+import logoImg from '../../../public/logo.svg'
 
 export function Header() {
   const { lineItens } = useContext(HandbagContext)
@@ -30,7 +30,7 @@ export function Header() {
     return (
       <HeaderContainer style={{ justifyContent: 'center' }}>
         <Link href="/">
-          <Image src={logoImg} alt="" />
+          <img src={logoImg.src} width={130} height={52} alt="" />
         </Link>
       </HeaderContainer>
     )
@@ -39,7 +39,7 @@ export function Header() {
   return (
     <HeaderContainer>
       <Link href="/">
-        <Image src={logoImg} alt="" />
+        <img src={logoImg.src} width={130} height={52} alt="" />
       </Link>
 
       <Dialog.Root open={open}>
