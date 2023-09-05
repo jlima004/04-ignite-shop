@@ -21,10 +21,10 @@ Além disto é bom ter um editor para trabalhar com o código como o [VSCode](ht
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/jlima004/04-ignite-shop.git
+$ git clone https://github.com/jlima004/desafio-ignite-shop.git
 
 # Acesse a pasta do projeto no terminal/cmd
-$ cd 04-ignite-shop
+$ cd desafio-ignite-shop
 
 # Instale as dependências do projeto
 $ npm install | yarn install 
